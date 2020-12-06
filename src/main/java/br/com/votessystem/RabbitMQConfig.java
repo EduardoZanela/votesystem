@@ -1,6 +1,5 @@
 package br.com.votessystem;
 
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -39,10 +38,9 @@ public class RabbitMQConfig {
 		mapper.registerModule(new JavaTimeModule());
 		return new Jackson2JsonMessageConverter(mapper);
 	}
-
 	
 	@Bean
-	public AmqpTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+	public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
 		final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
 		rabbitTemplate.setMessageConverter(jsonMessageConverter());
 		return rabbitTemplate;

@@ -2,6 +2,7 @@ package br.com.votessystem.controller;
 
 import static org.mockito.Mockito.when;
 
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,6 +49,9 @@ public class PautaTest {
 		
 		@MockBean
 		private AssociatedVoteStatusClient voteStatusClient;
+		
+		@MockBean
+		private RabbitTemplate rabbitTemplate;
 
 		@Before
 		public void setup() {
@@ -56,7 +61,7 @@ public class PautaTest {
 		@Test
 		public void getPautaTest() throws Exception {
 
-			when(pautaRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(new PautaEntity()));
+			when(pautaRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(new PautaEntity(1, "Pauta 1", ZonedDateTime.now())));
 
 			ResponseEntity<PautaEntity> responseEntity = pautaController.getPauta(1);
 
@@ -74,7 +79,9 @@ public class PautaTest {
 		@Test
 		public void postPautaTest() throws Exception {
 
-			when(pautaRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(new PautaEntity()));
+			when(pautaRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(new PautaEntity(1, "Pauta 1", ZonedDateTime.now())));
+
+			when(pautaRepository.save(Mockito.any(PautaEntity.class))).thenReturn(new PautaEntity(1, "Pauta 1", ZonedDateTime.now()));
 
 			ResponseEntity<PautaEntity> responseEntity = pautaController.postPauta(new PautaDTO("nome", 2L));
 

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
 
-import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -31,7 +31,7 @@ public class PautaService {
 	private VoteRepository votoRepository;
 	
 	@Autowired
-	private AmqpTemplate rabbitTemplate;
+	private RabbitTemplate rabbitTemplate;
 
 	public PautaEntity getPauta(Integer pautaId) throws Exception {
 	

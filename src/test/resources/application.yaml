@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: votessystem
+  main:
+    allow-bean-definition-overriding: true
+  flyway:
+    enabled: false
+    baseline-on-migrate: true
+  datasource:
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1;
+    username: sa
+    password: sa
+    driver-class-name: org.h2.Driver
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rabbitmq
+    password: rabbitmq
+  listener:
+      simple:
+        auto-startup: false
+server:
+  port: 8080
+
+votessystem:
+    associatedvotestatus:
+      url: https://user-info.herokuapp.com/users/
+      votestatus: "/{cpf}"
