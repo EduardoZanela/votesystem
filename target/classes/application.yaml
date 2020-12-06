@@ -1,6 +1,8 @@
 spring:
   application:
     name: votessystem
+  main:
+    allow-bean-definition-overriding: true
   flyway:
     enabled: true
     baseline-on-migrate: true
@@ -9,6 +11,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: example
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rabbitmq
+    password: rabbitmq
 
 server:
   port: 8080
