@@ -51,10 +51,8 @@ public class PautaService {
 
 	public PautaEntity postPauta(PautaDTO pauta) {
 		log.info("PautaService.postPauta - PautaDTO: {}", pauta);
+		PautaEntity pautaEntity = new PautaEntity(pauta.getName(), ZonedDateTime.now().plusMinutes(1));
 		
-		PautaEntity pautaEntity = new PautaEntity();
-		pautaEntity.setName(pauta.getName());
-		pautaEntity.setTime(ZonedDateTime.now().plusMinutes(1));
 		if(!ObjectUtils.isEmpty(pauta.getMinutes())) {
 			pautaEntity.setTime(ZonedDateTime.now().plusMinutes(pauta.getMinutes()));
 		}
@@ -71,19 +69,14 @@ public class PautaService {
 
 	public PautaResult getPautaResult(Integer pautaId) throws Exception {		
 		
-		PautaResult pautaResult = new PautaResult(); 
 		log.info("PautaService.getPautaResultado - pautaId: {}", pautaId);
 
 		PautaEntity pauta = getPauta(pautaId);
-		pautaResult.setName(pauta.getName());
-		pautaResult.setTime(pauta.getTime());
 		
 		List<VoteEntity> votes = votoRepository.findByPautaId(pauta.getId());
 		Long votesYes = votes.stream().filter(VoteEntity::isVote).count();
-		
-		pautaResult.setVotesYes(votesYes);
-		pautaResult.setVotesNo(votes.size() - votesYes);
-		
+		PautaResult pautaResult = PautaResult.builder().name(pauta.getName()).time(pauta.getTime()).votesYes(votesYes).votesNo(votes.size() - votesYes).build();
+
 		log.info("PautaService.getPautaResultado - pautaResultado: {}", pautaResult);
 
 		return pautaResult;

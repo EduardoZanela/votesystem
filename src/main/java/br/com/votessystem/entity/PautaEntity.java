@@ -12,10 +12,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -35,5 +37,10 @@ public class PautaEntity implements Serializable{
 	
 	@Column(name = "TIME")
 	private ZonedDateTime time;
+	
+	public PautaEntity(String name, ZonedDateTime time) {
+		this.name = name;
+		this.time = time;
+	}
 
 }

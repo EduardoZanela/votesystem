@@ -34,22 +34,20 @@ public class VoteService {
 	@Autowired
 	private AssociatedVoteStatusClient voteStatusClient;
 	
-	public VoteEntity vote(Integer pautaId,VoteDTO votoDTO) throws Exception {
-		log.info("VotoService.iniciarVoto - pautaId: {}, votoDTO:{}",pautaId ,votoDTO);
-		VoteEntity voto = new VoteEntity();
+	public VoteEntity vote(Integer pautaId,VoteDTO voteDTO) throws Exception {
+		log.info("VotoService.iniciarVoto - pautaId: {}, votoDTO:{}", pautaId, voteDTO);
 		
-		AssociatedEntity associadoEntity = getAssociated(votoDTO); 
+		
+		AssociatedEntity associatedEntity = getAssociated(voteDTO); 
 		PautaEntity pautaEntity = pautaService.getPauta(pautaId);
 				
-		validateVote(pautaEntity, associadoEntity);
+		validateVote(pautaEntity, associatedEntity);
 		
-		voto.setAssociated(associadoEntity);
-		voto.setPauta(pautaEntity);
-		voto.setVote(votoDTO.getVote());
-		voteRepository.save(voto);
+		VoteEntity vote = VoteEntity.builder().associated(associatedEntity).pauta(pautaEntity).vote(voteDTO.getVote()).build();
+		vote = voteRepository.save(vote);
 
-		log.info("VotoService.iniciarVoto - pautaId: {}, votoEntity:{}",pautaId ,voto);
-		return voto;
+		log.info("VotoService.iniciarVoto - pautaId: {}, votoEntity:{}",pautaId , vote);
+		return vote;
 		
 	}
 

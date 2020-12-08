@@ -1,4 +1,4 @@
-package br.com.votessystem;
+package br.com.votessystem.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
