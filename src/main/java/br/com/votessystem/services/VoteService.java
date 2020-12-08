@@ -64,11 +64,17 @@ public class VoteService {
 			throw new Exception("Votaçao encerrada");
 		}
 		
-		AssociatedVoteStatus associatedVoteStatus = voteStatusClient.getAssociatedVoteStatus(associado.getCpf());
-		if(associatedVoteStatus.getStatus().equals(AssociatedVoteStatusEnum.UNABLE_TO_VOTE)) {
-			log.warn("VotoService.getAssociado - Associado impossibilitado de votar - cpf: {}", associado.getCpf());
-			throw new Exception("Associado Impossibilitado de Votar");
+		try {
+			AssociatedVoteStatus associatedVoteStatus = voteStatusClient.getAssociatedVoteStatus(associado.getCpf());
+			if(associatedVoteStatus.getStatus().equals(AssociatedVoteStatusEnum.UNABLE_TO_VOTE)) {
+				log.error("VotoService.getAssociado - Associado impossibilitado de votar - cpf: {}", associado.getCpf());
+				throw new Exception("Associado Impossibilitado de Votar");
+			}
+		} catch(Exception e) {
+			log.error("VotoService.getAssociado - Erro no serviço de validação de associado", e);
+			throw new Exception("Erro no serviço de validação de associado - " + e.getMessage());
 		}
+		
 	}
 
 	private AssociatedEntity getAssociated(VoteDTO votoDTO) throws Exception {

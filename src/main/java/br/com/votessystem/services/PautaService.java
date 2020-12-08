@@ -45,7 +45,7 @@ public class PautaService {
 		
 		}
 		
-		log.info("PautaService.getPauta - pautaId: {}", pautaId);
+		log.info("PautaService.getPauta - pautaId from repo: {}", pautaId);
 		return pautaEntity.get();
 	}
 
